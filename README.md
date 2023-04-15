@@ -1,24 +1,22 @@
-# hexo-asset-link [![NPM version](https://badge.fury.io/js/hexo-asset-link.svg)](https://www.npmjs.com/package/hexo-asset-link)
-
-Convert Markdown style asset links to HTML style ones.
+# hexo-asset-link
+Convert **Markdown and HTML style(image only)** asset links to HTML style ones.
+This plugin is inspired from and based on [liolok/hexo-asset-link](https://github.com/liolok/hexo-asset-link), but with new features added to support more "casual" syntax **just like editing markdown in Visual Studio Code**:
+- support more path prefixs, `space(s),".\"` (Windows-stype path)
+- insert image with HTML style links in HTML tags, e.g.: `<img src="a-post-folder/1.png" />`
+- spaces in `[]` of the markdown image syntax
 
 ## Install
 
 In Hexo blog instance directory:
-
 ```shell
-$ npm i -s hexo-asset-link
+$ npm i https://github.com/yaanggny/hexo-asset-link
 ```
 
-**or** if you prefer yarn:
-
-```shell
-$ yarn add hexo-asset-link
-```
+If you have the old plugin installed, just replace the file `index.js` in `node_modules`.
 
 ## Config
 
-**Find** (not *add*) and enable [`Post Asset Folders`](https://hexo.io/docs/asset-folders#Post-Asset-Folder) feature in `_config.yml`:
+**Find** (not *add*) and enable [`Post Asset Folders`](https://hexo.io/docs/asset-folders#Post-Asset-Folder) feature in the gloabl `_config.yml`:
 
 ```yml
 # Writing
@@ -46,6 +44,16 @@ Then in `2019-02-14-Test-Post.md`:
 ```markdown
 ![Alt Text](./2019-02-14-Test-Post/Test-Image.png "Title Text")
 ![Alt Text](2019-02-14-Test-Post/Test-Image.png "Title Text")
+![Alt Text](.\2019-02-14-Test-Post/1.png)
+![Alt Text]( .\2019-02-14-Test-Post/1.png)
+![Alt Text ]( ./2019-02-14-Test-Post/1.png)
+
+<img src="./a-post-name/1.png" alt="picture-1-1" />
+
+<figure align="center">​
+  <img src="./a-post-name/2.png" title="convert training loop">​
+  <figcaption>Pytorch-PytorchLightning training loop</figcaption>​
+</figure>
 ```
 
 ### Other Files
@@ -53,6 +61,7 @@ Then in `2019-02-14-Test-Post.md`:
 ```markdown
 [Text](./2019-02-14-Test-Post/Test-Other-File.pdf)
 [Text](2019-02-14-Test-Post/Test-Other-File.pdf)
+[Text ]( .\2019-02-14-Test-Post/Test-Other-File.pdf)
 ```
 
 After this we'll get the right asset path result in:
@@ -61,7 +70,6 @@ After this we'll get the right asset path result in:
 - Blog post page of `hexo server` preview;
 - Blog home page of online website;
 - Blog post page of online website;
-- Markdown preview of editors like VS Code.
 
 Now shall we just have fun writing!
 
