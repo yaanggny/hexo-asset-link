@@ -11,9 +11,12 @@ function convertLink(data) {
   // Split by path delimiter, filter out empty string, last one is asset folder's name.
   const asset_dir_name = data.asset_dir.split(/[\/\\]/).filter(i => i).pop();
   hexo.log.d('Post asset folder name:', chalk.magenta(asset_dir_name));
+  // fix ++ in path folder, "Nothing to repeat" error
+  const folder_fix = asset_dir_name.replace('\+\+', '\\+\\+');
   // Asset paths in markdown start with './', '.\', spaces or not, then folder's name, end with '/'.
-  const path_markdown = RegExp('(?<=!?\\\[.*\\\]\\\()\\s*\.?[\/\\\\]?' + asset_dir_name + '\/', 'g');
-  const path_mkdown_html = RegExp('(?<=<img\\s+src=")\\s*\.?[\/\\\\]?' + asset_dir_name + '\/', 'g');
+  // const path_markdown = RegExp('(?<=!?\\\[.*\\\]\\\()\\s*\.?[\/\\\\]?' + asset_dir_name + '\/', 'g');
+  const path_markdown = RegExp('(?<=!?\\[.*\\]\\()\\s*\\.?[\\/\\\\\]?' + folder_fix + '\\/', 'g');
+  const path_mkdown_html = RegExp('(?<=<img\\s+src=")\\s*\.?[\/\\\\]?' + folder_fix + '\\/', 'g');
 
   if (!path_markdown.test(data.content) && !path_mkdown_html.test(data.content)) return; // no asset link found, do nothing
 
